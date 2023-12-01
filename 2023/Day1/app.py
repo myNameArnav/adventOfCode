@@ -1,13 +1,8 @@
-with open("2023/Day1/input.txt", "r") as f:
-    input = f.read()
-
-input = input.split()
-
-# test = [input[0]]
-
+with open("input.txt", "r") as f:
+    input = f.read().split()
 
 def words2num(message: str) -> str:
-    ogMessage = message
+    # handles cases like `eighthree`
     words = {
         "one": "o1e",
         "two": "t2o",
@@ -29,28 +24,21 @@ def words2num(message: str) -> str:
 def main(input):
     result = 0
     for message in input:
-        ogMessage = message
+
+        # Second part
         message = words2num(message)
+
+        for symbol in message:
+            if symbol.isdigit():
+                a = int(symbol)
+
         reversed = message[::-1]
-
-        for sym in message:
-            try:
-                a = int(sym)
-                break
-            except ValueError:
-                continue
-
-        for invsym in reversed:
-            try:
-                b = int(invsym)
-                break
-            except ValueError:
-                continue
+        for symbol in reversed:
+            if symbol.isdigit():
+                b = int(symbol)
 
         c = a * 10 + b
-
         result += c
+    return result
 
-    print(result)
-
-main(input)
+print(main(input))
