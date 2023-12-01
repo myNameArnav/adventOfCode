@@ -1,3 +1,5 @@
+// IT DONT WORK
+
 // A, X ->   Rock      -> 1 point
 // B, Y ->   Paper     -> 2 points
 // C, Z ->   Scissors  -> 3 points
