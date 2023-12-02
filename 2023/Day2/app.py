@@ -41,5 +41,4 @@ for lines in input:
     if checkIfGameValid(games):
         result += gameNumber
 
-
 print(result)
