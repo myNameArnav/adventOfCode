@@ -1,18 +1,5 @@
-with open(
-    "/Users/arnavjain/Documents/Projects/adventOfCode/2023/Day3/input.txt", "r"
-) as f:
+with open("input.txt", "r") as f:
     input = f.read().split()
-
-# input = """467..114..
-# ...*......
-# ..35..633.
-# ......#...
-# 617*......
-# .....+.58.
-# ..592.....
-# ......755.
-# ...$.*....
-# .664.598..""".split()
 
 GRID = []
 result = []
@@ -21,10 +8,9 @@ gearList = []
 for line in input:
     GRID.append(list(line))
 
+
 def getNumberLen(row: list, pos: int) -> list:
     temp = []
-    if row == ["4", "3", "6", ".", ".", ".", ".", "+", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "/", ".", ".", ".", ".", ".", ".", ".", "/", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "7", "6", "5", "*", ".", ".", ".", ".", ".", ".", "3", "7", ".", ".", ".", ".", ".", "8", "4", "3", ".", ".", ".", ".", "2", "1", "8", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "8", "5", "2", "*", "6", "8", ".", ".", ".", ".", "2", "9", "0", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "4", "1", "0", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "*", ".", ".", ".", ".", ".", "5", "3", "9", ".", ".", ".", ".", "8", "9", "6", ".", ".", ".", "."]:
-        pass
     for cell in range(pos, len(row)):
         if row[cell].isdigit():
             temp.append(row[cell])
@@ -32,9 +18,10 @@ def getNumberLen(row: list, pos: int) -> list:
             break
     return ["".join(temp), len(temp)]
 
+
 def makeSubgrid(row: list, upRow: list, downRow: list, coli: int, numLen: int) -> list:
     rowSliceStart = 0 if coli == 0 else coli - 1
-    rowSliceEnd = len(row)-1 if coli == len(row)-1 else coli + numLen + 1
+    rowSliceEnd = len(row) - 1 if coli == len(row) - 1 else coli + numLen + 1
     masterRow = (
         upRow[rowSliceStart:rowSliceEnd]
         + row[rowSliceStart:rowSliceEnd]
@@ -43,9 +30,11 @@ def makeSubgrid(row: list, upRow: list, downRow: list, coli: int, numLen: int) -
     return masterRow
 
 
-def checkGearPos(row: list, upRow: list, downRow: list, rowi: int, coli:int, numLen:int) -> list:
-    startSlice = 0 if coli == 0 else coli-1
-    endSlice = numLen+coli+1
+def checkGearPos(
+    row: list, upRow: list, downRow: list, rowi: int, coli: int, numLen: int
+) -> list:
+    startSlice = 0 if coli == 0 else coli - 1
+    endSlice = numLen + coli + 1
     if "*" in upRow[startSlice:endSlice]:
         r = rowi - 1
         c = upRow[startSlice:endSlice].index("*")
@@ -63,16 +52,17 @@ def findPairs(gearList) -> int:
     result = 0
     for gear in gearList:
         num = gear[0]
-        gearPos =  str(gear[1])
+        gearPos = str(gear[1])
         if gearPos in temp.keys():
-            temp[gearPos] = [temp[gearPos][0]*num, temp[gearPos][1]+1]
+            temp[gearPos] = [temp[gearPos][0] * num, temp[gearPos][1] + 1]
         else:
             temp[gearPos] = [num, 1]
-            
+
     for val in temp.values():
         if val[1] == 2:
             result += val[0]
     return result
+
 
 def main():
     for rowi, row in enumerate(GRID):
@@ -84,18 +74,14 @@ def main():
                     upRow = [] if rowi == 0 else GRID[rowi - 1]
                     downRow = [] if rowi == len(GRID) - 1 else GRID[rowi + 1]
                     masterRow = makeSubgrid(row, upRow, downRow, coli, numLen)
-                    print(num)
                     if "*" in masterRow:
-                        r,c = checkGearPos(row, upRow, downRow, rowi, coli, numLen)
+                        r, c = checkGearPos(row, upRow, downRow, rowi, coli, numLen)
                         a = 0 if coli == 0 else 1
-                        gearList.append([int(num), [r,coli+c-a]])
+                        gearList.append([int(num), [r, coli + c - a]])
                 skip += numLen if col.isdigit() else 1
     pairs = findPairs(gearList)
 
     return pairs
 
-result = main()
 
-
-
-print(result)
+print(main())
